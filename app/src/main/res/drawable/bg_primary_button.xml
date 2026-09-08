@@ -1,0 +1,1 @@
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="#33FFFFFF"><item><shape><gradient android:angle="0" android:startColor="#477BFA" android:endColor="#7B5DEF"/><corners android:radius="17dp"/></shape></item></ripple>

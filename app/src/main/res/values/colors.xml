@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="surface_base">#090E1C</color>
+    <color name="surface_card">#111A2D</color>
+    <color name="surface_inset">#0D1526</color>
+    <color name="surface_border">#233454</color>
+    <color name="text_primary">#F3F6FF</color>
+    <color name="text_secondary">#A5B2CC</color>
+    <color name="text_muted">#8090AD</color>
+    <color name="accent_blue">#6C9BFF</color>
+    <color name="accent_purple">#A28AFF</color>
+    <color name="accent_mint">#7ED8BE</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
