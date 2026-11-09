@@ -1,8 +1,11 @@
 package com.example.waitasecond.ui.settings
 
+import android.Manifest
 import android.content.ActivityNotFoundException
 import android.app.NotificationManager
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -15,14 +18,21 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import com.example.waitasecond.R
 import com.example.waitasecond.data.local.TrustedContactStore
+import com.example.waitasecond.data.repository.SessionManager
+import com.example.waitasecond.service.presentation.FocusSessionSurfaces
 import com.example.waitasecond.util.FocusWindow
 
 class FocusOptionsActivity : AppCompatActivity() {
     private val options by lazy { getSharedPreferences("focus_options", MODE_PRIVATE) }
     private val trustedContacts by lazy { TrustedContactStore(options) }
+    private val notificationPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        renderLockScreenTimer()
+        SessionManager.refreshFocusSurfaces()
+    }
     private val contactPicker = registerForActivityResult(ActivityResultContracts.PickContact()) { uri ->
         if (uri != null && options.getBoolean(TRUSTED_CONTACTS_GUIDE, false)) {
             if (trustedContacts.addFromPicker(contentResolver, uri)) renderContacts()
@@ -70,12 +80,44 @@ class FocusOptionsActivity : AppCompatActivity() {
                 openSystemScreen(Intent(Settings.ACTION_ZEN_MODE_PRIORITY_SETTINGS), soundSettings)
             } else openSystemScreen(soundSettings)
         }
+        findViewById<SwitchCompat>(R.id.lockScreenTimerOptIn).apply {
+            isChecked = FocusSessionSurfaces.isLockScreenEnabled(this@FocusOptionsActivity)
+            setOnCheckedChangeListener { _, enabled ->
+                FocusSessionSurfaces.setLockScreenEnabled(this@FocusOptionsActivity, enabled)
+                renderLockScreenTimer()
+                SessionManager.refreshFocusSurfaces()
+                if (enabled && Build.VERSION.SDK_INT >= 33 && ContextCompat.checkSelfPermission(
+                        this@FocusOptionsActivity, Manifest.permission.POST_NOTIFICATIONS
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+        findViewById<Button>(R.id.lockScreenTimerSettings).setOnClickListener {
+            val appDetails = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", packageName, null))
+            if (Build.VERSION.SDK_INT >= 26) {
+                openSystemScreen(Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                    .putExtra(Settings.EXTRA_APP_PACKAGE, packageName), appDetails)
+            } else openSystemScreen(appDetails)
+        }
         renderContacts()
     }
 
     override fun onResume() {
         super.onResume()
         if (options.getBoolean(TRUSTED_CONTACTS_GUIDE, false)) renderDndStatus()
+        renderLockScreenTimer()
+        SessionManager.refreshFocusSurfaces()
+    }
+
+    private fun renderLockScreenTimer() {
+        val enabled = FocusSessionSurfaces.isLockScreenEnabled(this)
+        val visibility = if (enabled) View.VISIBLE else View.GONE
+        findViewById<View>(R.id.lockScreenTimerSettings).visibility = visibility
+        findViewById<TextView>(R.id.lockScreenTimerStatus).apply {
+            this.visibility = visibility
+            setText(if (FocusSessionSurfaces.canPostLockScreenTimer(this@FocusOptionsActivity))
+                R.string.focus_display_available else R.string.focus_display_blocked)
+        }
     }
 
     private fun renderDndStatus() {

@@ -57,11 +57,14 @@ class FoundationTest {
     }
     @Test fun processRecoveryCountsDowntimeOnceButNeverInventsAppExposure() {
         val store = MemorySessionStore(); val t = tracker(store)
-        val id = t.startSession("DBMS", 1).id
+        val started = t.startSession("DBMS", 1)
         t.foregroundChanged(AppPackages.YOUTUBE)
         now = 10_000; t.checkpoint()
         now = 25_000; val restored = tracker(store)
-        assertEquals(id, restored.activeSession()!!.id)
+        val recoveredSession = restored.activeSession()!!
+        assertEquals(started.id, recoveredSession.id)
+        assertEquals(started.elapsedBaseMillis, recoveredSession.elapsedBaseMillis)
+        assertEquals(started.deadlineElapsedMillis, recoveredSession.deadlineElapsedMillis)
         assertEquals(35_000L, restored.remainingMillis())
         assertEquals(25_000L, restored.dailyStatistics(0, Long.MAX_VALUE).studyMillis)
         assertEquals(10_000L, restored.dailyStatistics(0, Long.MAX_VALUE).screenMillis)
@@ -74,7 +77,9 @@ class FoundationTest {
         val store = MemorySessionStore(); val t = tracker(store)
         t.startSession("DBMS", 1); now = 10_000; t.checkpoint()
         now = 1_000; val recovered = tracker(store, boot = 2)
-        assertEquals(SessionStatus.ACTIVE, recovered.currentSession()!!.status)
+        val active = recovered.activeSession()!!
+        assertEquals(-9_000L, active.elapsedBaseMillis)
+        assertEquals(51_000L, active.deadlineElapsedMillis)
         assertEquals(50_000L, recovered.remainingMillis())
     }
     @Test fun recoveryPastDeadlineCompletesAndClampsHistory() {

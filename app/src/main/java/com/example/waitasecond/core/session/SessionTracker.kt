@@ -191,9 +191,9 @@ open class SessionTracker(private val clock: () -> Long, private val log: (Strin
         if (session?.isOpen == true) finish(clock(), SessionStatus.CANCELLED)
         return session
     }
-    private fun deadline() = session!!.resumedAtMillis + session!!.plannedMillis - session!!.accumulatedMillis
     private fun expire() {
-        if (session?.isActive == true && clock() >= deadline()) finish(deadline())
+        val current = session
+        if (current?.isActive == true && clock() >= current.deadlineElapsedMillis) finish(current.deadlineElapsedMillis)
         if (pendingKey != null && overlay && visibleToken == null && clock() - pendingSince >= MonitoringPolicy.LAUNCH_TIMEOUT_MS) {
             pendingKey = null; interventionFlow.clear(); overlayOrigin = null
             log("OVERLAY", "Intervention did not become visible; no attempt counted")

@@ -5,7 +5,7 @@
     <!-- Scheduled workers are short ordinary work; the library's optional foreground path is unused. -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" tools:node="remove" />
 
-    <!-- Notifications announce scheduled starts; optional when denied. -->
+    <!-- Optional scheduled-start notices and the opt-in lock-screen focus timer. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Special access for precise starts; WorkManager is the fallback when denied. -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
@@ -26,6 +26,15 @@
 
         <activity android:name="com.example.waitasecond.ui.planning.PlanningActivity" android:exported="false" />
         <activity android:name="com.example.waitasecond.ui.settings.FocusOptionsActivity" android:exported="false" />
+        <receiver
+            android:name=".service.presentation.FocusWidgetProvider"
+            android:exported="false"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/focus_widget_info" />
+        </receiver>
         <receiver android:name="com.example.waitasecond.service.scheduling.ScheduleReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

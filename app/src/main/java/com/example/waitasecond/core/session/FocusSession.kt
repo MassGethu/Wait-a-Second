@@ -24,6 +24,8 @@ data class FocusSession(
     val isActive get() = status == SessionStatus.ACTIVE
     val isOpen get() = isActive
     val plannedMillis get() = scheduledDurationMillis ?: (durationMinutes * 60_000L)
+    val elapsedBaseMillis get() = resumedAtMillis - accumulatedMillis
+    val deadlineElapsedMillis get() = elapsedBaseMillis + plannedMillis
     fun elapsedMillis(now: Long): Long = (accumulatedMillis +
         if (isActive) (now - resumedAtMillis).coerceAtLeast(0) else 0).coerceIn(0, plannedMillis)
     fun remainingMillis(now: Long) = plannedMillis - elapsedMillis(now)

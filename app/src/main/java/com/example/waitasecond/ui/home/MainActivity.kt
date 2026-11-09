@@ -13,6 +13,7 @@ import com.example.waitasecond.data.repository.FocusUiState
 import com.example.waitasecond.data.repository.SessionManager
 import com.example.waitasecond.data.repository.ShortVideoRepository
 import com.example.waitasecond.service.accessibility.WaitaSecondAccessibilityService
+import com.example.waitasecond.service.presentation.FocusSessionSurfaces
 import com.example.waitasecond.ui.components.TrackedAppView
 import com.example.waitasecond.ui.components.FocusFormat
 import com.example.waitasecond.ui.components.FocusTimerView
@@ -26,6 +27,7 @@ import android.text.InputFilter
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -110,6 +112,13 @@ class MainActivity : AppCompatActivity() {
         }
         selectPage(showingStatistics)
     }
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.action == FocusSessionSurfaces.ACTION_OPEN) {
+            selectPage(false)
+            findViewById<ScrollView>(R.id.homePage).scrollTo(0, 0)
+        }
+    }
     override fun onResume() {
         super.onResume()
         resumed = true
@@ -122,6 +131,7 @@ class MainActivity : AppCompatActivity() {
         SessionManager.interventionState().takeIf { it.phase == InterventionPhase.STRICT_FOCUS_RESET }?.token
             ?.let { SessionManager.resetVisibility(it, true) }
         SessionManager.refreshState()
+        SessionManager.refreshFocusSurfaces()
         render()
     }
     override fun onPause() {

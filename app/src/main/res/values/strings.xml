@@ -183,4 +183,15 @@ Then get back to it.</string>
     <string name="scheduled_started">Scheduled focus session started</string>
     <string name="skip_end">Skip / End</string>
     <string name="messaging_checkin">MESSAGING CHECK-IN</string>
+    <string name="focus_display_title">Lock-screen focus timer</string>
+    <string name="focus_display_description">Show your current goal and elapsed time in an ongoing notification. This can make your goal visible while the phone is locked.</string>
+    <string name="focus_display_enable">Show focus timer on lock screen</string>
+    <string name="focus_display_channel">Focus session timer</string>
+    <string name="focus_display_notification_text">Focus session in progress</string>
+    <string name="focus_display_available">Allow silent notifications on the lock screen in Android settings to see the timer there.</string>
+    <string name="focus_display_blocked">Allow Wait a Second notifications in Android settings to show the timer.</string>
+    <string name="focus_display_notification_settings">Open notification settings</string>
+    <string name="focus_widget_description">Open a focus session or see your current goal and elapsed time.</string>
+    <string name="focus_widget_start">Start Focus</string>
+    <string name="focus_widget_elapsed">Elapsed</string>
 </resources>

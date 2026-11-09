@@ -56,6 +56,12 @@ Remaining time derives from accumulated active time plus the current monotonic i
 
 Daily totals clip active intervals at local calendar-day boundaries, including midnight and daylight-saving changes. Events group by their original intervention timestamp; mode usage groups by session start date. The chart covers today plus six prior days; the selector also exposes the seventh prior day. Focus time means an active session, not verified attentive study; app time means observed foreground exposure, not media playback. Changing the wall clock can affect calendar attribution but not the monotonic countdown. History currently has no retention/export/delete UI; Android app-storage clearing removes it. Backup and device transfer exclude the database.
 
+## Lock-screen timer and home-screen widget
+
+- In **Focus options**, enable **Show focus timer on lock screen** and allow notifications if Android asks. During a session, a silent notification shows the current goal and elapsed time. Allow silent notifications on the lock screen in Android settings. The goal can be readable while the phone is locked. Always-On Display visibility depends on the device and remains unverified.
+- Add **Wait a Second** from your launcher's widget picker. The resizable widget shows **Start Focus** when idle and the goal and elapsed time during a session. Tap it to open the existing focus setup or running session. The in-app timer shows remaining time.
+- Android advances both displays from the existing session clock without periodic widget updates. Ending a session removes the notification and returns the widget to idle. If the app process is unavailable at natural expiry, Android 8 and newer can time out the notification independently. The widget uses a one-shot expiry alarm, which Android can delay when precise alarm access is unavailable.
+
 ## Permissions and enabling monitoring
 
 1. Install and open Wait a Second.
@@ -102,7 +108,7 @@ Debug builds use `WAS/SESSION`, `WAS/MONITOR`, `WAS/CLASSIFIER`, `WAS/OVERLAY`, 
 
 - Device-specific overlay and third-party-layout checks are documented in the [modes/history report](docs/MODES_HISTORY_REPORT.md). Coverage on one phone does not guarantee identical OEM behavior.
 - Accessibility IDs/layouts and English labels can change; incomplete, ambiguous, unavailable, localized or unsupported contexts fail open. Explore is reserved in the normalized type but is not guessed from search evidence. Shorts currently has synthetic regression coverage, not captured live-device evidence.
-- Android can stop the process/service. Observation gaps cannot be reconstructed. Foreground accounting precision depends on delivered accessibility events and the 250 ms coalescing interval. There is no alarm/notification guaranteeing an expiry callback while the process is absent; restored state immediately resolves the mathematical deadline.
+- Android can stop the process/service. Observation gaps cannot be reconstructed. Foreground accounting precision depends on delivered accessibility events and the 250 ms coalescing interval. Restored sessions resolve expiry from the mathematical deadline.
 - Existing keyword relevance is deliberately limited. Full AI, on-device models, embeddings, cloud APIs, additional apps, prediction, recommendations, final visual design and animation are deferred.
 
 Next: validate the supported-context → overlay → choice → persisted-statistics loop on an iQOO/Android device and capture sanitized fixtures for its current YouTube/Instagram versions. Then extend topic classification through DistractionClassifier without changing monitoring, storage or UI ownership.

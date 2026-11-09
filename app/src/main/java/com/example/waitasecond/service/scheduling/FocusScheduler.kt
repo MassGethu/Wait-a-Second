@@ -17,6 +17,7 @@ import androidx.work.*
 import com.example.waitasecond.R
 import com.example.waitasecond.core.planning.*
 import com.example.waitasecond.data.repository.SessionManager
+import com.example.waitasecond.service.presentation.FocusSessionSurfaces
 import com.example.waitasecond.ui.home.MainActivity
 import java.time.ZoneId
 import java.util.concurrent.CountDownLatch
@@ -108,12 +109,16 @@ class ScheduleReceiver : BroadcastReceiver() {
             try {
                 when(intent.action) {
                     FocusScheduler.FIRE -> intent.getStringExtra("scheduleId")?.let { FocusScheduler.deliver(context,it,intent.getLongExtra("fireAt",0)) }
+                    FocusSessionSurfaces.ACTION_EXPIRE -> SessionManager.refreshFocusSurfaces()
                     FocusScheduler.END -> {
                         val id = intent.getStringExtra("sessionId")
                         if (id != null && SessionManager.activeSession()?.id == id) SessionManager.endSession()
                         if(id != null) context.getSystemService(NotificationManager::class.java).cancel(id.hashCode())
                     }
-                    else -> FocusScheduler.reschedule(context,intent.action == Intent.ACTION_TIME_CHANGED || intent.action == Intent.ACTION_TIMEZONE_CHANGED)
+                    else -> {
+                        FocusScheduler.reschedule(context,intent.action == Intent.ACTION_TIME_CHANGED || intent.action == Intent.ACTION_TIMEZONE_CHANGED)
+                        SessionManager.refreshFocusSurfaces()
+                    }
                 }
             } finally { SessionManager.flush { pending.finish() } }
         }

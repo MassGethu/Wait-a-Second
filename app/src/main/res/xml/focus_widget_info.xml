@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/focus_widget_description"
+    android:initialLayout="@layout/focus_widget"
+    android:previewLayout="@layout/focus_widget"
+    android:minWidth="144dp"
+    android:minHeight="76dp"
+    android:minResizeWidth="144dp"
+    android:minResizeHeight="76dp"
+    android:targetCellWidth="3"
+    android:targetCellHeight="2"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="0"
+    android:widgetCategory="home_screen" />

@@ -60,5 +60,24 @@
                     android:layout_height="wrap_content" android:orientation="vertical" />
             </LinearLayout>
         </LinearLayout>
+        <LinearLayout style="@style/Focus.Card" android:layout_marginTop="16dp">
+            <TextView style="@style/Focus.Text.Section" android:text="@string/focus_display_title" />
+            <TextView style="@style/Focus.Text.Body" android:layout_marginTop="4dp"
+                android:text="@string/focus_display_description" />
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/lockScreenTimerOptIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="@string/focus_display_enable"
+                android:textColor="@color/text_primary" />
+            <TextView android:id="@+id/lockScreenTimerStatus" style="@style/Focus.Text.Body"
+                android:visibility="gone" />
+            <Button android:id="@+id/lockScreenTimerSettings" style="@style/Focus.TextButton"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="@string/focus_display_notification_settings"
+                android:visibility="gone" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

@@ -2,6 +2,7 @@ package com.example.waitasecond.data.repository
 
 import com.example.waitasecond.core.planning.*
 import com.example.waitasecond.service.scheduling.FocusScheduler
+import com.example.waitasecond.service.presentation.FocusSessionSurfaces
 import com.example.waitasecond.BuildConfig
 import com.example.waitasecond.core.monitoring.MonitoringPolicy
 import com.example.waitasecond.core.session.FocusSession
@@ -53,6 +54,7 @@ object SessionManager : SessionTracker(SystemClock::elapsedRealtime, FocusLog::w
     val state: LiveData<FocusUiState> get() = mutableState
     private var ready = false
     private lateinit var appContext: Context
+    private lateinit var focusSurfaces: FocusSessionSurfaces
     private val readyCallbacks = mutableListOf<() -> Unit>()
     private var storageError = false
     private var lastCheckpoint = 0L
@@ -71,6 +73,7 @@ object SessionManager : SessionTracker(SystemClock::elapsedRealtime, FocusLog::w
     }
     fun initialize(context: Context) {
         appContext = context.applicationContext
+        focusSurfaces = FocusSessionSurfaces(appContext)
         ShortVideoRepository.initialize(appContext)
         DeviceBoot.count = Settings.Global.getInt(context.contentResolver, Settings.Global.BOOT_COUNT, 0)
         worker.execute {
@@ -108,6 +111,7 @@ object SessionManager : SessionTracker(SystemClock::elapsedRealtime, FocusLog::w
         val from = day.timeInMillis
         day.add(Calendar.DAY_OF_MONTH, 1)
         val session = currentSession()
+        focusSurfaces.publish(session)
         val intervention = interventionState()
         mutableState.value = FocusUiState(session, remainingMillis(), dailyStatistics(from, day.timeInMillis),
             storedEvents().filter { it.timestamp >= from && it.timestamp < day.timeInMillis }.takeLast(4).asReversed(),
@@ -138,4 +142,5 @@ object SessionManager : SessionTracker(SystemClock::elapsedRealtime, FocusLog::w
     /** Finish a receiver only after all queued durable writes. No database IO on the main thread. */
     fun flush(completed: () -> Unit) { worker.execute { handler.post { completed() } } }
     fun refreshState() { onStateChanged() }
+    fun refreshFocusSurfaces() = whenReady { focusSurfaces.publish(currentSession(), force = true) }
 }
