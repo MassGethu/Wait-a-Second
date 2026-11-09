@@ -188,9 +188,11 @@ Then get back to it.</string>
     <string name="focus_display_enable">Show focus timer on lock screen</string>
     <string name="focus_display_channel">Focus session timer</string>
     <string name="focus_display_notification_text">Focus session in progress</string>
-    <string name="focus_display_available">Allow silent notifications on the lock screen in Android settings to see the timer there.</string>
+    <string name="focus_display_available">Allow silent notifications and their contents on the lock screen in Android settings to see the goal and timer.</string>
+    <string name="focus_display_available_oneplus">In Notifications &amp; Quick Settings, allow Lock screen notifications, choose List, and turn off Hide notification details on Lock screen to see the goal and timer. This can also reveal details from other apps.</string>
     <string name="focus_display_blocked">Allow Wait a Second notifications in Android settings to show the timer.</string>
-    <string name="focus_display_notification_settings">Open notification settings</string>
+    <string name="focus_display_notification_settings">Open app notification settings</string>
+    <string name="focus_display_lock_screen_settings">Open lock-screen notification settings</string>
     <string name="focus_widget_description">Open a focus session or see your current goal and elapsed time.</string>
     <string name="focus_widget_start">Start Focus</string>
     <string name="focus_widget_elapsed">Elapsed</string>

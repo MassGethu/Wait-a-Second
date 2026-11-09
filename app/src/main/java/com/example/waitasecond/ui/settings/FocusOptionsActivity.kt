@@ -93,6 +93,10 @@ class FocusOptionsActivity : AppCompatActivity() {
             }
         }
         findViewById<Button>(R.id.lockScreenTimerSettings).setOnClickListener {
+            if (FocusSessionSurfaces.canPostLockScreenTimer(this)) {
+                openSystemScreen(Intent(NOTIFICATION_SETTINGS), Intent(Settings.ACTION_SETTINGS))
+                return@setOnClickListener
+            }
             val appDetails = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", packageName, null))
             if (Build.VERSION.SDK_INT >= 26) {
                 openSystemScreen(Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
@@ -112,11 +116,18 @@ class FocusOptionsActivity : AppCompatActivity() {
     private fun renderLockScreenTimer() {
         val enabled = FocusSessionSurfaces.isLockScreenEnabled(this)
         val visibility = if (enabled) View.VISIBLE else View.GONE
-        findViewById<View>(R.id.lockScreenTimerSettings).visibility = visibility
+        val canPost = FocusSessionSurfaces.canPostLockScreenTimer(this)
+        findViewById<Button>(R.id.lockScreenTimerSettings).apply {
+            this.visibility = visibility
+            setText(if (canPost) R.string.focus_display_lock_screen_settings else R.string.focus_display_notification_settings)
+        }
         findViewById<TextView>(R.id.lockScreenTimerStatus).apply {
             this.visibility = visibility
-            setText(if (FocusSessionSurfaces.canPostLockScreenTimer(this@FocusOptionsActivity))
-                R.string.focus_display_available else R.string.focus_display_blocked)
+            setText(when {
+                !canPost -> R.string.focus_display_blocked
+                Build.MANUFACTURER.equals("OnePlus", ignoreCase = true) -> R.string.focus_display_available_oneplus
+                else -> R.string.focus_display_available
+            })
         }
     }
 
@@ -171,5 +182,7 @@ class FocusOptionsActivity : AppCompatActivity() {
     private companion object {
         const val GRAYSCALE_GUIDE = "grayscale_guide"
         const val TRUSTED_CONTACTS_GUIDE = "trusted_contacts_guide"
+        // Some Android builds expose a notification hub through this action.
+        const val NOTIFICATION_SETTINGS = "android.settings.NOTIFICATION_SETTINGS"
     }
 }

@@ -58,7 +58,7 @@ Daily totals clip active intervals at local calendar-day boundaries, including m
 
 ## Lock-screen timer and home-screen widget
 
-- In **Focus options**, enable **Show focus timer on lock screen** and allow notifications if Android asks. During a session, a silent notification shows the current goal and elapsed time. Allow silent notifications on the lock screen in Android settings. The goal can be readable while the phone is locked. Always-On Display visibility depends on the device and remains unverified.
+- In **Focus options**, enable **Show focus timer on lock screen** and allow notifications if Android asks. During a session, a silent notification shows the current goal and elapsed time. Use **Open lock-screen notification settings** to allow silent notifications and their contents. On the OnePlus Nord CE4 with OxygenOS 16, the goal and timer appeared with the **List** notification style and **Hide notification details on Lock screen** turned off. That system switch affects other apps too. In the Always-On Display test on the same phone, neither the goal nor the timer appeared.
 - Add **Wait a Second** from your launcher's widget picker. The resizable widget shows **Start Focus** when idle and the goal and elapsed time during a session. Tap it to open the existing focus setup or running session. The in-app timer shows remaining time.
 - Android advances both displays from the existing session clock without periodic widget updates. Ending a session removes the notification and returns the widget to idle. If the app process is unavailable at natural expiry, Android 8 and newer can time out the notification independently. The widget uses a one-shot expiry alarm, which Android can delay when precise alarm access is unavailable.
 
