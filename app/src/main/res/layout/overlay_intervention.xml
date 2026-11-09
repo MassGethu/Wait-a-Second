@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/overlayRoot" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fillViewport="true" android:scrollbars="none">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center" android:paddingHorizontal="20dp" android:paddingVertical="28dp" android:orientation="vertical">
+        <LinearLayout style="@style/Focus.Card" android:background="@drawable/bg_accent_card"
+            android:paddingHorizontal="24dp" android:paddingVertical="32dp" android:gravity="center_horizontal">
+            <TextView style="@style/Focus.Text.Eyebrow" android:text="@string/gentle_reminder" android:textColor="@color/accent_purple"/>
+            <ImageView android:layout_width="88dp" android:layout_height="88dp" android:layout_marginTop="28dp"
+                android:background="@drawable/bg_icon" android:padding="24dp" android:src="@drawable/ic_focus" android:importantForAccessibility="no"/>
+            <TextView style="@style/Focus.Text.Title" android:layout_width="match_parent" android:layout_marginTop="28dp"
+                android:gravity="center" android:text="@string/overlay_headline" android:textSize="30sp"/>
+            <TextView android:id="@+id/interventionMessage" style="@style/Focus.Text.Body" android:layout_width="match_parent"
+                android:layout_marginTop="16dp" android:gravity="center" android:textSize="16sp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:background="@drawable/bg_inset" android:padding="18dp" android:layout_marginTop="28dp" android:orientation="vertical">
+                <TextView android:id="@+id/interventionCategoryLabel" style="@style/Focus.Text.Eyebrow" android:text="@string/detected_distraction" android:textColor="@color/accent_blue"/>
+                <TextView android:id="@+id/interventionSource" style="@style/Focus.Text.Section" android:layout_marginTop="10dp"/>
+                <TextView android:id="@+id/interventionContent" style="@style/Focus.Text.Body" android:layout_width="match_parent"
+                    android:layout_marginTop="6dp" android:maxLines="3" android:ellipsize="end"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:baselineAligned="false"
+                android:layout_marginTop="24dp" android:gravity="center_vertical">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                    <TextView style="@style/Focus.Text.Eyebrow" android:text="@string/current_topic"/>
+                    <TextView android:id="@+id/interventionGoal" style="@style/Focus.Text" android:layout_marginTop="8dp"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical" android:gravity="end">
+                    <TextView style="@style/Focus.Text.Eyebrow" android:text="@string/focus_remaining"/>
+                    <TextView android:id="@+id/interventionRemaining" style="@style/Focus.Text.Section" android:layout_marginTop="8dp" android:textColor="@color/accent_blue"/>
+                </LinearLayout>
+            </LinearLayout>
+            <TextView android:id="@+id/interventionMode" style="@style/Focus.Text.Body" android:layout_width="match_parent"
+                android:gravity="center" android:layout_marginTop="18dp"/>
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/goBackButton" style="@style/Focus.PrimaryButton"
+                android:layout_marginTop="30dp" android:text="@string/go_back"/>
+            <androidx.appcompat.widget.AppCompatButton android:id="@+id/continueButton" style="@style/Focus.SecondaryButton"
+                android:layout_marginTop="12dp" android:text="@string/continue_anyway"/>
+            <TextView style="@style/Focus.Text.Body" android:layout_width="match_parent" android:layout_marginTop="18dp"
+                android:gravity="center" android:textSize="11sp" android:text="@string/return_keeps_session"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

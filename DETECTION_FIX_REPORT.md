@@ -1,3 +1,5 @@
+> Historical prototype report. Current architecture and setup are documented in [README](README.md) and the [foundation report](docs/FOUNDATION_REPORT.md).
+
 # Detection regression fix — 2026-09-07
 
 This supersedes the detector limitations/rules described in the original PROTOTYPE_V2_REPORT.md where they differ.

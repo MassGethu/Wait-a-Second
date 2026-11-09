@@ -1,0 +1,142 @@
+$ git diff --stat
+ DETECTION_FIX_REPORT.md                            |   2 +
+ PROTOTYPE_V2_REPORT.md                             |   2 +
+ UI_REDESIGN_REPORT.md                              |   2 +
+ app/build.gradle.kts                               |   4 +
+ .../example/waitasecond/ExampleInstrumentedTest.kt |  24 --
+ .../java/com/example/waitasecond/FocusFlowTest.kt  |  75 +++----
+ app/src/main/AndroidManifest.xml                   |  23 +-
+ .../waitasecond/AccessibilityNodeInspector.kt      |  86 -------
+ .../com/example/waitasecond/DbmsRelevanceScorer.kt | 100 ---------
+ .../java/com/example/waitasecond/DriftDetector.kt  |  39 ----
+ .../java/com/example/waitasecond/FocusSession.kt   |   9 -
+ .../java/com/example/waitasecond/FocusViews.kt     | 140 ------------
+ .../java/com/example/waitasecond/FocusWindow.kt    |  23 --
+ .../example/waitasecond/InstagramReelsDetector.kt  |  71 ------
+ .../example/waitasecond/InterventionActivity.kt    | 166 --------------
+ .../com/example/waitasecond/InterventionDecider.kt |   9 -
+ .../java/com/example/waitasecond/MainActivity.kt   | 177 ---------------
+ .../com/example/waitasecond/PrototypePipeline.kt   |  57 -----
+ .../java/com/example/waitasecond/SessionEvent.kt   |  39 ----
+ .../java/com/example/waitasecond/SessionManager.kt | 246 ---------------------
+ .../com/example/waitasecond/SessionStatistics.kt   |  14 --
+ .../waitasecond/WaitaSecondAccessibilityService.kt |  92 --------
+ .../com/example/waitasecond/YouTubeClassifier.kt   |  62 ------
+ app/src/main/res/layout/activity_intervention.xml  |  42 ----
+ app/src/main/res/layout/screen_home.xml            |  17 +-
+ app/src/main/res/layout/screen_statistics.xml      |   8 +-
+ app/src/main/res/values/strings.xml                |  47 ++--
+ app/src/main/res/values/themes.xml                 |   9 -
+ .../main/res/xml/accessibility_service_config.xml  |   4 +-
+ app/src/main/res/xml/backup_rules.xml              |  15 +-
+ app/src/main/res/xml/data_extraction_rules.xml     |  22 +-
+ .../example/waitasecond/DbmsRelevanceScorerTest.kt |   3 +
+ .../com/example/waitasecond/DeviceSnapshotTest.kt  |   8 +
+ .../com/example/waitasecond/DriftDetectorTest.kt   |   7 +-
+ .../com/example/waitasecond/ExampleUnitTest.kt     |  17 --
+ .../example/waitasecond/InterventionLogicTest.kt   |   4 +
+ .../example/waitasecond/ScreenClassifierTest.kt    |   8 +
+ .../com/example/waitasecond/SessionManagerTest.kt  |  15 +-
+ .../example/waitasecond/SessionStatisticsTest.kt   |  28 ++-
+ gradle/libs.versions.toml                          |   3 +
+ 40 files changed, 141 insertions(+), 1578 deletions(-)
+
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   DETECTION_FIX_REPORT.md
+	modified:   PROTOTYPE_V2_REPORT.md
+	modified:   UI_REDESIGN_REPORT.md
+	modified:   app/build.gradle.kts
+	deleted:    app/src/androidTest/java/com/example/waitasecond/ExampleInstrumentedTest.kt
+	modified:   app/src/androidTest/java/com/example/waitasecond/FocusFlowTest.kt
+	modified:   app/src/main/AndroidManifest.xml
+	deleted:    app/src/main/java/com/example/waitasecond/AccessibilityNodeInspector.kt
+	deleted:    app/src/main/java/com/example/waitasecond/DbmsRelevanceScorer.kt
+	deleted:    app/src/main/java/com/example/waitasecond/DriftDetector.kt
+	deleted:    app/src/main/java/com/example/waitasecond/FocusSession.kt
+	deleted:    app/src/main/java/com/example/waitasecond/FocusViews.kt
+	deleted:    app/src/main/java/com/example/waitasecond/FocusWindow.kt
+	deleted:    app/src/main/java/com/example/waitasecond/InstagramReelsDetector.kt
+	deleted:    app/src/main/java/com/example/waitasecond/InterventionActivity.kt
+	deleted:    app/src/main/java/com/example/waitasecond/InterventionDecider.kt
+	deleted:    app/src/main/java/com/example/waitasecond/MainActivity.kt
+	deleted:    app/src/main/java/com/example/waitasecond/PrototypePipeline.kt
+	deleted:    app/src/main/java/com/example/waitasecond/SessionEvent.kt
+	deleted:    app/src/main/java/com/example/waitasecond/SessionManager.kt
+	deleted:    app/src/main/java/com/example/waitasecond/SessionStatistics.kt
+	deleted:    app/src/main/java/com/example/waitasecond/WaitaSecondAccessibilityService.kt
+	deleted:    app/src/main/java/com/example/waitasecond/YouTubeClassifier.kt
+	deleted:    app/src/main/res/layout/activity_intervention.xml
+	modified:   app/src/main/res/layout/screen_home.xml
+	modified:   app/src/main/res/layout/screen_statistics.xml
+	modified:   app/src/main/res/values/strings.xml
+	modified:   app/src/main/res/values/themes.xml
+	modified:   app/src/main/res/xml/accessibility_service_config.xml
+	modified:   app/src/main/res/xml/backup_rules.xml
+	modified:   app/src/main/res/xml/data_extraction_rules.xml
+	modified:   app/src/test/java/com/example/waitasecond/DbmsRelevanceScorerTest.kt
+	modified:   app/src/test/java/com/example/waitasecond/DeviceSnapshotTest.kt
+	modified:   app/src/test/java/com/example/waitasecond/DriftDetectorTest.kt
+	deleted:    app/src/test/java/com/example/waitasecond/ExampleUnitTest.kt
+	modified:   app/src/test/java/com/example/waitasecond/InterventionLogicTest.kt
+	modified:   app/src/test/java/com/example/waitasecond/ScreenClassifierTest.kt
+	modified:   app/src/test/java/com/example/waitasecond/SessionManagerTest.kt
+	modified:   app/src/test/java/com/example/waitasecond/SessionStatisticsTest.kt
+	modified:   gradle/libs.versions.toml
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.idea/
+	README.md
+	app/src/androidTest/java/com/example/waitasecond/LocalSessionStoreTest.kt
+	app/src/main/java/com/example/waitasecond/FocusApplication.kt
+	app/src/main/java/com/example/waitasecond/core/
+	app/src/main/java/com/example/waitasecond/data/
+	app/src/main/java/com/example/waitasecond/service/
+	app/src/main/java/com/example/waitasecond/ui/
+	app/src/main/java/com/example/waitasecond/util/
+	app/src/main/res/layout/overlay_intervention.xml
+	app/src/test/java/com/example/waitasecond/FoundationTest.kt
+	docs/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+New worktree files (excluding pre-existing .idea/):
+README.md
+app/src/androidTest/java/com/example/waitasecond/LocalSessionStoreTest.kt
+app/src/main/java/com/example/waitasecond/FocusApplication.kt
+app/src/main/java/com/example/waitasecond/core/distraction/DbmsRelevanceScorer.kt
+app/src/main/java/com/example/waitasecond/core/distraction/DriftDetector.kt
+app/src/main/java/com/example/waitasecond/core/distraction/InterventionDecider.kt
+app/src/main/java/com/example/waitasecond/core/monitoring/AppContext.kt
+app/src/main/java/com/example/waitasecond/core/monitoring/MonitoringPipeline.kt
+app/src/main/java/com/example/waitasecond/core/monitoring/OverlayController.kt
+app/src/main/java/com/example/waitasecond/core/monitoring/SupportedApp.kt
+app/src/main/java/com/example/waitasecond/core/session/FocusSession.kt
+app/src/main/java/com/example/waitasecond/core/session/SessionTracker.kt
+app/src/main/java/com/example/waitasecond/data/local/LocalSessionStore.kt
+app/src/main/java/com/example/waitasecond/data/model/DistractionEvent.kt
+app/src/main/java/com/example/waitasecond/data/model/SessionEvent.kt
+app/src/main/java/com/example/waitasecond/data/model/SessionStatistics.kt
+app/src/main/java/com/example/waitasecond/data/repository/SessionRepository.kt
+app/src/main/java/com/example/waitasecond/data/repository/StatisticsRepository.kt
+app/src/main/java/com/example/waitasecond/service/accessibility/AccessibilityNodeInspector.kt
+app/src/main/java/com/example/waitasecond/service/accessibility/ContextExtractor.kt
+app/src/main/java/com/example/waitasecond/service/accessibility/InstagramReelsDetector.kt
+app/src/main/java/com/example/waitasecond/service/accessibility/WaitaSecondAccessibilityService.kt
+app/src/main/java/com/example/waitasecond/service/accessibility/YouTubeClassifier.kt
+app/src/main/java/com/example/waitasecond/service/overlay/AccessibilityOverlayController.kt
+app/src/main/java/com/example/waitasecond/ui/components/FocusViews.kt
+app/src/main/java/com/example/waitasecond/ui/home/FocusViewModel.kt
+app/src/main/java/com/example/waitasecond/ui/home/MainActivity.kt
+app/src/main/java/com/example/waitasecond/util/FocusWindow.kt
+app/src/main/res/layout/overlay_intervention.xml
+app/src/test/java/com/example/waitasecond/FoundationTest.kt
+docs/FOUNDATION_AUDIT.md
+docs/FOUNDATION_REPORT.md
+docs/GIT_WORKTREE.txt

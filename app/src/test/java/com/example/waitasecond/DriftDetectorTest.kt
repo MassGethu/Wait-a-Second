@@ -1,5 +1,10 @@
 package com.example.waitasecond
 
+import com.example.waitasecond.core.distraction.DriftDetector
+import com.example.waitasecond.core.monitoring.SupportedApp
+import com.example.waitasecond.data.model.RelevanceStatus
+import com.example.waitasecond.data.model.SessionEvent
+
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -51,7 +56,7 @@ class DriftDetectorTest {
     private fun events(vararg scores: Double): List<SessionEvent> = scores.mapIndexed { index, score ->
         SessionEvent(
             timestampMillis = index.toLong(),
-            sourceApp = PrototypePipeline.SOURCE_YOUTUBE,
+            sourceApp = SupportedApp.YOUTUBE.displayName,
             content = "content-$index",
             score = score,
             status = RelevanceStatus.UNCERTAIN,

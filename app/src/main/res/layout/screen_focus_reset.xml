@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/focusResetPage" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fillViewport="true" android:visibility="gone" android:background="@color/surface_base">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+        android:orientation="vertical" android:padding="28dp">
+        <TextView style="@style/Focus.Text.Eyebrow" android:text="@string/brand_eyebrow" android:textColor="@color/accent_purple"/>
+        <TextView style="@style/Focus.Text.Title" android:layout_width="match_parent" android:gravity="center"
+            android:layout_marginTop="32dp" android:text="@string/reset_heading"/>
+        <TextView style="@style/Focus.Text.Body" android:layout_marginTop="32dp" android:text="@string/reset_topic_heading"/>
+        <TextView android:id="@+id/resetTopic" style="@style/Focus.Text.Title" android:layout_marginTop="12dp" android:gravity="center"/>
+        <TextView style="@style/Focus.Text.Body" android:layout_width="match_parent" android:gravity="center"
+            android:layout_marginTop="24dp" android:text="@string/reset_message"/>
+        <TextView android:id="@+id/resetCountdown" style="@style/Focus.Text.Title" android:layout_width="match_parent"
+            android:gravity="center" android:textSize="80sp" android:layout_marginTop="32dp" android:textColor="@color/accent_blue"
+            android:accessibilityLiveRegion="polite"/>
+        <androidx.appcompat.widget.AppCompatButton android:id="@+id/resetEndSession" style="@style/Focus.TextButton"
+            android:layout_marginTop="32dp" android:text="@string/end_session"/>
+        <TextView style="@style/Focus.Text.Body" android:layout_width="match_parent" android:gravity="center"
+            android:textSize="12sp" android:text="@string/reset_end_note" android:layout_marginTop="8dp"/>
+    </LinearLayout>
+</ScrollView>

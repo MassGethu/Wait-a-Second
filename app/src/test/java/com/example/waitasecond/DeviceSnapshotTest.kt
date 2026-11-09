@@ -1,5 +1,17 @@
 package com.example.waitasecond
 
+import com.example.waitasecond.core.distraction.DbmsRelevanceScorer
+import com.example.waitasecond.core.monitoring.AppSection
+import com.example.waitasecond.core.monitoring.ShortVideoPlatform
+import com.example.waitasecond.core.monitoring.SupportedApp
+import com.example.waitasecond.data.model.RelevanceStatus
+import com.example.waitasecond.service.accessibility.AccessibilityNodeSnapshot
+import com.example.waitasecond.service.accessibility.ContextExtractor
+import com.example.waitasecond.service.accessibility.InstagramReelsDetector
+import com.example.waitasecond.service.accessibility.InstagramScreen
+import com.example.waitasecond.service.accessibility.YouTubeClassifier
+import com.example.waitasecond.service.accessibility.YouTubeScreen
+
 import org.junit.Assert.*
 import org.junit.Test
 import javax.xml.parsers.DocumentBuilderFactory
@@ -27,6 +39,24 @@ class DeviceSnapshotTest {
     }
     @Test fun actualNordReelsWithoutOriginalAudioIsRecognized() {
         assertTrue(InstagramReelsDetector.detect(snapshot("nord-reels.xml")).isReels)
+    }
+    @Test fun capturedInstagramScreensSeparateChatFromViewerWithoutLabels() {
+        val dm = ContextExtractor.extract(SupportedApp.INSTAGRAM, structuralSnapshot("nord-dm.xml"))
+        assertEquals(AppSection.DIRECT_MESSAGES, dm.section)
+        assertTrue(dm.isDirectConversation)
+        assertNull(ShortVideoPlatform.from(dm))
+
+        val reels = ContextExtractor.extract(SupportedApp.INSTAGRAM, structuralSnapshot("nord-reels.xml"))
+        assertEquals(ShortVideoPlatform.REELS, ShortVideoPlatform.from(reels))
+    }
+    @Test fun capturedYouTubeWatchScreensDoNotCountAsShortsWithoutLabels() {
+        for (file in listOf("nord-youtube-owner.xml", "nord-youtube-scrolled.xml")) {
+            val context = ContextExtractor.extract(SupportedApp.YOUTUBE, structuralSnapshot(file))
+            assertNull(file, ShortVideoPlatform.from(context))
+        }
+    }
+    private fun structuralSnapshot(name: String) = snapshot(name).map {
+        it.copy(text = null, contentDescription = null)
     }
     @Test fun actualNordOwnerRowWorksWhenTitleIsNotExposed() {
         val screen = YouTubeClassifier.classify(snapshot("nord-youtube-owner.xml"))

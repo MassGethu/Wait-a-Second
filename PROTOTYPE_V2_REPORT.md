@@ -1,3 +1,5 @@
+> Historical prototype report. Current architecture and setup are documented in [README](README.md) and the [foundation report](docs/FOUNDATION_REPORT.md).
+
 # WaitaSecond prototype version 2
 
 Update 2026-09-07: see [the detection regression fix report](DETECTION_FIX_REPORT.md) for corrected rules, actual Nord CE4 fixtures, and device validation. The original implementation report below is historical.

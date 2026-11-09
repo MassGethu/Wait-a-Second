@@ -1,3 +1,5 @@
+> Historical prototype report. Current architecture and setup are documented in [README](README.md) and the [foundation report](docs/FOUNDATION_REPORT.md).
+
 # Integrated UI redesign
 
 Implemented in the existing Kotlin/XML app. Home and the active timer now share one screen; Statistics is the only other navigation destination. The intervention remains a separate translucent Activity with a large card and dimmed underlying app. No reference images were supplied, so the design follows the written navy, blue-purple, rounded-card specification.

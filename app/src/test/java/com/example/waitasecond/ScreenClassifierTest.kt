@@ -1,5 +1,16 @@
 package com.example.waitasecond
 
+import com.example.waitasecond.core.distraction.DbmsRelevanceScorer
+import com.example.waitasecond.core.monitoring.AppSection
+import com.example.waitasecond.core.monitoring.SupportedApp
+import com.example.waitasecond.data.model.RelevanceStatus
+import com.example.waitasecond.service.accessibility.AccessibilityNodeSnapshot
+import com.example.waitasecond.service.accessibility.ContextExtractor
+import com.example.waitasecond.service.accessibility.InstagramReelsDetector
+import com.example.waitasecond.service.accessibility.InstagramScreen
+import com.example.waitasecond.service.accessibility.YouTubeClassifier
+import com.example.waitasecond.service.accessibility.YouTubeScreen
+
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -16,6 +27,11 @@ class ScreenClassifierTest {
     @Test fun dmListIsAllowed() {
         val result = InstagramReelsDetector.detect(navigation + n(id = "direct_inbox"))
         assertEquals(InstagramScreen.DM_LIST, result.screenType); assertFalse(result.isReels)
+    }
+    @Test fun pluralThreadsIdIsAnInboxAndDoesNotScheduleConversationPrompt() {
+        val context = ContextExtractor.extract(SupportedApp.INSTAGRAM, navigation + n(id = "direct_threads"))
+        assertEquals(AppSection.DIRECT_MESSAGES, context.section)
+        assertFalse(context.isDirectConversation)
     }
     @Test fun homeAndBottomReelsLabelAreAllowed() {
         val result = InstagramReelsDetector.detect(navigation)

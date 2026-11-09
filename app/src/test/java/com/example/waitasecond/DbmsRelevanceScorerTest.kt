@@ -1,5 +1,8 @@
 package com.example.waitasecond
 
+import com.example.waitasecond.core.distraction.DbmsRelevanceScorer
+import com.example.waitasecond.data.model.RelevanceStatus
+
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

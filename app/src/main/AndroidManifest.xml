@@ -2,13 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <queries>
-        <package android:name="com.google.android.youtube" />
-        <package android:name="com.instagram.android" />
-    </queries>
+    <!-- Scheduled workers are short ordinary work; the library's optional foreground path is unused. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" tools:node="remove" />
 
+    <!-- Notifications announce scheduled starts; optional when denied. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Special access for precise starts; WorkManager is the fallback when denied. -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- Recreate locally scheduled alarms after reboot; no foreground polling service. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
-        android:allowBackup="true"
+        android:name=".FocusApplication"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -16,9 +21,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WaitASecond">
+        <service android:name="androidx.work.impl.foreground.SystemForegroundService" tools:node="remove" />
+        <activity android:name="com.example.waitasecond.ui.retype.RetypeActivity" android:exported="false" android:taskAffinity="com.example.waitasecond.retype" android:excludeFromRecents="true" />
 
+        <activity android:name="com.example.waitasecond.ui.planning.PlanningActivity" android:exported="false" />
+        <activity android:name="com.example.waitasecond.ui.settings.FocusOptionsActivity" android:exported="false" />
+        <receiver android:name="com.example.waitasecond.service.scheduling.ScheduleReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.waitasecond.ui.home.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,15 +45,9 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".InterventionActivity"
-            android:theme="@style/Theme.WaitASecond.Intervention"
-            android:excludeFromRecents="true"
-            android:exported="false"
-            android:taskAffinity="com.example.waitasecond.intervention" />
-
+        <!-- User-enabled observation and TYPE_ACCESSIBILITY_OVERLAY; no Usage Access or draw-over-apps permission needed. -->
         <service
-            android:name=".WaitaSecondAccessibilityService"
+            android:name="com.example.waitasecond.service.accessibility.WaitaSecondAccessibilityService"
             android:exported="true"
             android:label="@string/accessibility_service_label"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">

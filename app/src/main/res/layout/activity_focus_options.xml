@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/focusOptionsRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+        <Button android:id="@+id/focusOptionsBack" style="@style/Focus.TextButton" android:text="@string/back_home" />
+        <TextView style="@style/Focus.Text.Title" android:text="@string/focus_options" />
+        <LinearLayout style="@style/Focus.Card" android:layout_marginTop="16dp">
+            <TextView style="@style/Focus.Text.Section" android:text="@string/grayscale_title" />
+            <TextView style="@style/Focus.Text.Body" android:layout_marginTop="4dp" android:text="@string/grayscale_scope" />
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/grayscaleOptIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:textColor="@color/text_primary"
+                android:text="@string/grayscale_opt_in" />
+            <LinearLayout
+                android:id="@+id/grayscaleGuide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <TextView style="@style/Focus.Text.Body" android:text="@string/grayscale_instructions" />
+                <Button android:id="@+id/grayscaleAndroidSettings" style="@style/Focus.TextButton"
+                    android:layout_height="wrap_content" android:minHeight="48dp" android:text="@string/grayscale_open_settings" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout style="@style/Focus.Card" android:layout_marginTop="16dp">
+            <TextView style="@style/Focus.Text.Section" android:text="@string/trusted_contacts_title" />
+            <TextView style="@style/Focus.Text.Body" android:layout_marginTop="4dp" android:text="@string/trusted_contacts_scope" />
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/trustedContactsOptIn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:textColor="@color/text_primary"
+                android:text="@string/trusted_contacts_opt_in" />
+            <LinearLayout
+                android:id="@+id/trustedContactsGuide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <TextView style="@style/Focus.Text.Body" android:text="@string/trusted_contacts_instructions" />
+                <TextView android:id="@+id/trustedDndStatus" style="@style/Focus.Text.Body" android:layout_marginTop="8dp" />
+                <Button android:id="@+id/openDndSettings" style="@style/Focus.TextButton"
+                    android:layout_height="wrap_content" android:minHeight="48dp" android:text="@string/trusted_open_dnd" />
+                <Button android:id="@+id/addTrustedContact" style="@style/Focus.SecondaryButton"
+                    android:layout_height="wrap_content" android:minHeight="48dp" android:text="@string/trusted_contact_add" />
+                <TextView android:id="@+id/trustedContactsEmpty" style="@style/Focus.Text.Body"
+                    android:layout_marginTop="8dp" android:text="@string/trusted_contacts_empty" />
+                <LinearLayout android:id="@+id/trustedContactList" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:orientation="vertical" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

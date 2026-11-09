@@ -1,5 +1,12 @@
 package com.example.waitasecond
 
+import com.example.waitasecond.core.distraction.DbmsRelevanceScorer
+import com.example.waitasecond.core.session.SessionTracker
+import com.example.waitasecond.data.model.RelevanceResult
+import com.example.waitasecond.data.model.RelevanceStatus
+import com.example.waitasecond.data.model.RuntimeObservation
+import com.example.waitasecond.data.model.UserChoice
+
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -8,7 +15,7 @@ class SessionManagerTest {
     private var now = 0L
     private lateinit var tracker: SessionTracker
     @Before fun setup() {
-        now = 0; tracker = SessionTracker({ now }); tracker.startSession("Study DBMS", 90)
+        now = 0; tracker = SessionTracker({ now }, cooldownMillis = 0); tracker.startSession("Study DBMS", 90)
     }
     private fun video(title: String) = RuntimeObservation("YouTube", title, DbmsRelevanceScorer.score(title), isVideo = true)
     private fun instagram(screen: String, distracting: Boolean = false, known: Boolean = true) = RuntimeObservation("Instagram", screen,
@@ -132,11 +139,11 @@ class SessionManagerTest {
         assertTrue(tracker.isCurrentIntervention(current))
     }
 
-    @Test fun goBackToDistractingAppHomeKeepsSessionActive() {
+    @Test fun returnToFocusKeepsSessionActive() {
         youtube()
         val token = launch(video("GTA Gameplay"))
 
-        val leftIntervention = tracker.leaveInterventionForAppHome(token)
+        val leftIntervention = tracker.chooseIntervention(token, UserChoice.RETURN_TO_SESSION)
 
         assertTrue(leftIntervention)
         assertTrue(tracker.isSessionActive())
@@ -149,7 +156,7 @@ class SessionManagerTest {
         val staleToken = launch(video("GTA Gameplay"))
         tracker.startSession("Study DBMS", 90)
 
-        assertFalse(tracker.leaveInterventionForAppHome(staleToken))
+        assertFalse(tracker.chooseIntervention(staleToken, UserChoice.RETURN_TO_SESSION))
         assertTrue(tracker.isSessionActive())
     }
     @Test fun titleCapitalizationDoesNotSplitContentTiming() {

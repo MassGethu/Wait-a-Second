@@ -1,5 +1,9 @@
 package com.example.waitasecond
 
+import com.example.waitasecond.core.distraction.InterventionDecider
+import com.example.waitasecond.data.model.RelevanceResult
+import com.example.waitasecond.data.model.RelevanceStatus
+
 import org.junit.Assert.*
 import org.junit.Test
 

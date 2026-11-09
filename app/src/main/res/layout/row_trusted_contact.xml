@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:background="@drawable/bg_inset"
+    android:orientation="vertical"
+    android:padding="8dp">
+    <TextView android:id="@+id/trustedContactName" style="@style/Focus.Text.Section"
+        android:maxLines="2" android:ellipsize="end" />
+    <Button android:id="@+id/openTrustedContact" style="@style/Focus.TextButton"
+        android:layout_height="wrap_content" android:minHeight="48dp" android:text="@string/trusted_contact_open" />
+    <Button android:id="@+id/removeTrustedContact" style="@style/Focus.TextButton"
+        android:layout_height="wrap_content" android:minHeight="48dp" android:text="@string/trusted_contact_remove" />
+</LinearLayout>
