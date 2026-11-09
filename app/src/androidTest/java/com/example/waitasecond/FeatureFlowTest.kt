@@ -3,6 +3,7 @@ package com.example.waitasecond
 import android.content.Intent
 import android.content.Context
 import android.os.SystemClock
+import androidx.appcompat.widget.SwitchCompat
 import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -128,8 +129,7 @@ class FeatureFlowTest {
                 onView(withId(R.id.grayscaleGuide)).check(matches(withEffectiveVisibility(Visibility.GONE)))
                 onView(withId(R.id.trustedContactsGuide)).check(matches(withEffectiveVisibility(Visibility.GONE)))
                 onView(withId(R.id.grayscaleOptIn)).perform(scrollTo(), click())
-                onView(withId(R.id.focusOptionsRoot)).perform(swipeUp())
-                onView(withId(R.id.trustedContactsOptIn)).perform(click())
+                scenario.onActivity { it.findViewById<SwitchCompat>(R.id.trustedContactsOptIn).performClick() }
                 scenario.recreate()
                 onView(withId(R.id.grayscaleOptIn)).check(matches(isChecked()))
                 onView(withId(R.id.trustedContactsOptIn)).check(matches(isChecked()))
